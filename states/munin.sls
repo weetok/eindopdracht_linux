@@ -15,4 +15,4 @@ munin-node-configure --shell --families=contrib,auto | sh -x:
         - pattern: |
             # cidr_allow 127.0.0.1/32
         - repl: |
-            cidr_allow 10.4.1.27/32
+            cidr_allow 10.4.1.35/32
