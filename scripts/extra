@@ -1,0 +1,1 @@
+ip addr show ens3 | grep -Eo "inet ([0-9]+.){3}[0-9]+" | cut -d' ' -f2
