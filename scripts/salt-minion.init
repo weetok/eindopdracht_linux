@@ -1,7 +1,7 @@
 #!/bin/bash
 ## Add necessary items to hosts-file
 echo "127.0.1.1 david-minion" >> /etc/hosts
-echo "10.4.1.27 salt" >> /etc/hosts
+echo "10.4.1.35 salt" >> /etc/hosts
 
 ## Install the salt-minion
 apt install -y salt-minion
