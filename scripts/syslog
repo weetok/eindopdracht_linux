@@ -1,0 +1,7 @@
+## Install Syslog-ng
+apt install syslog-ng
+
+## Configure syslog-ng
+MASTERIP=`ip addr show ens3 | grep -Eo "inet ([0-9]+.){3}[0-9]+" | cut -d' ' -f2`
+sed -ie "s/#source s_net { tcp(ip(127.0.0.1) port(1000)); };/source s_net { syslog(ip($MASTERIP) transport("tcp") port(1337)); };/" /etc/syslog-ng/syslog-ng.conf
+sed -ie "s/log { source(s_src);/log { source(s_src); source(s_net);/" /etc/syslog-ng/syslog-ng.conf
