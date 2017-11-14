@@ -1,23 +1,28 @@
 ## Install Munin
-apt install munin munin-node munin-plugins-extra
+sudo apt-get install -y apache2 apache2-utils
+sudo apt-get install -y libcgi-fast-perl libapache2-mod-fcgid
+sudo apt-get install -y munin
 
 ## Configure Munin
-cd /etc/munin/plugins
-ln -s /usr/share/munin/plugins/mysql_ mysql_
-ln -s /usr/share/munin/plugins/mysql_bytes mysql_bytes
-ln -s /usr/share/munin/plugins/mysql_innodb mysql_innodb
-ln -s /usr/share/munin/plugins/mysql_isam_space_ mysql_isam_space_
-ln -s /usr/share/munin/plugins/mysql_queries mysql_queries
-ln -s /usr/share/munin/plugins/mysql_slowqueries mysql_slowqueries
-ln -s /usr/share/munin/plugins/mysql_threads mysql_threads
-
-
 sed -ie "s/#dbdir /dbdir /" /etc/munin/munin.conf
-sed -ie "s/#htmldir /htmldir /" /etc/munin/munin.conf
+sed -ie "s/#htmldir \/var\/cache\/munin\/www/htmldir \/var\/www\/munin/" /etc/munin/munin.conf
 sed -ie "s/#logdir /logdir /" /etc/munin/munin.conf
 sed -ie "s/#rundir /rundir /" /etc/munin/munin.conf
 sed -ie "s/#tmpldir /tmpldir /" /etc/munin/munin.conf
-sed -ie "s/[localhost.local /[master.local /" /etc/munin/munin.conf
+
+mkdir /var/www/munin
+chown munin:munin /var/www/munin
+
+sed -ie "s/[localhost.localdomain /[master.my.domain /" /etc/munin/munin.conf
+sed -ie "s/Alias \/munin \/var\/cache\/munin\/www/Alias \/munin \/var\/www\/munin/" /etc/munin/apache.conf
+sed -ie "s/Directory \/var\/cache\/munin\/www/Directory \/var\/www\/munin/" /etc/munin/apache.conf
+sed -ie "s/Order allow,deny/Require all granted/g" /etc/munin/apache.conf
+sed -ie "s/Allow from localhost 127.0.0.0/8 ::1/Options FollowSymLinks SymLinksIfOwnerMatch/g" /etc/munin/apache.conf
+sed -ie "s/Options None/#Options None/g" /etc/munin/apache.conf
+
+sed -ie "s/Alias \/munin \/var\/cache\/munin\/www/Alias \/munin \/var\/www\/munin/" /etc/munin/apache24.conf
+sed -ie "s/Require none/Require all granted/" /etc/munin/apache24.conf
+sed -ie "s/Options none/Options FollowSymLinks SymLinksIfOwnerMatch/" /etc/munin/apache24.conf
 
 cd /etc/apache2/conf-enabled/
 ln -s /etc/munin/apache24.conf munin.conf
