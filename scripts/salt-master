@@ -7,6 +7,10 @@ sudo apt-get install salt-master  # or, salt-minion
 
 ## Salt-master configuration
 # change config
+MASTERIP=`ip addr show ens3 | grep -Eo "inet ([0-9]+.){3}[0-9]+" | cut -d' ' -f2`
+sed -ie "s/#interface: 0.0.0.0/interface: $MASTERIP/" /etc/salt/master
+sed -ie 's/#hash_type:/hash_type:/' /etc/salt/master
 
-salt-master -d
-salt-key -a <name>
+## Todo manually once a minion is made
+#salt-master -d
+#salt-key -a <name>
