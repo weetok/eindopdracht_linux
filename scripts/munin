@@ -24,13 +24,7 @@ sed -ie "s/Alias \/munin \/var\/cache\/munin\/www/Alias \/munin \/var\/www\/muni
 sed -ie "s/Require none/Require all granted/" /etc/munin/apache24.conf
 sed -ie "s/Options none/Options FollowSymLinks SymLinksIfOwnerMatch/" /etc/munin/apache24.conf
 
-cd /etc/apache2/conf-enabled/
-ln -s /etc/munin/apache24.conf munin.conf
-# edit munin's apache24 configuration to aloow for above changes
-# replace 'Require local' with:
-#	# Require local
-#	Require all granted
-#	Options FollowSymLinks SymLinksIfOwnerMatch
 service apache2 restart
+service munin-node restart
 
 # manually or automagically add nodes
