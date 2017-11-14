@@ -1,5 +1,5 @@
 ## Install Syslog-ng
-apt install syslog-ng
+apt install -y syslog-ng
 
 ## Configure syslog-ng
 MASTERIP=`ip addr show ens3 | grep -Eo "inet ([0-9]+.){3}[0-9]+" | cut -d' ' -f2`
