@@ -1,0 +1,15 @@
+#!/bin/bash
+## Add necessary items to hosts-file
+echo "127.0.1.1 david-minion" >> /etc/hosts
+echo "10.4.1.27 salt" >> /etc/hosts
+
+## Install the salt-minion
+apt install -y salt-minion
+sed -ie 's/#hash_type:/hash_type:/' /etc/salt/minion
+service salt-minion restart
+
+## Configure the salt-minion 
+# Get the salt-key fingerprint from the master & put it in the minion conf-file
+# If wanted, check compare minion key with the key known by the master
+# Accept the key at the master
+# Restart minion process

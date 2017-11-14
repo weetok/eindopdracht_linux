@@ -1,0 +1,19 @@
+## Installing the salt-master
+## From SU
+wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add - &&
+echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main" >> /etc/apt/sources.list.d/saltstack.list &&
+sudo apt update &&
+sudo apt install -y salt-master
+
+## Salt-master configuration
+# change config
+MASTERIP=`ip addr show ens3 | grep -Eo "inet ([0-9]+.){3}[0-9]+" | cut -d' ' -f2`
+sed -ie "s/#interface: 0.0.0.0/interface: $MASTERIP/" /etc/salt/master
+sed -ie 's/#hash_type:/hash_type:/' /etc/salt/master
+
+mkdir /srv/salt
+mkdir /srv/pillar
+
+## Todo manually once a minion is made
+#salt-master -d
+#salt-key -a <name>
