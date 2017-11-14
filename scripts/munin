@@ -1,5 +1,31 @@
 ## Install Munin
-apt install munin
+apt install munin munin-node munin-plugins-extra
 
 ## Configure Munin
+cd /etc/munin/plugins
+ln -s /usr/share/munin/plugins/mysql_ mysql_
+ln -s /usr/share/munin/plugins/mysql_bytes mysql_bytes
+ln -s /usr/share/munin/plugins/mysql_innodb mysql_innodb
+ln -s /usr/share/munin/plugins/mysql_isam_space_ mysql_isam_space_
+ln -s /usr/share/munin/plugins/mysql_queries mysql_queries
+ln -s /usr/share/munin/plugins/mysql_slowqueries mysql_slowqueries
+ln -s /usr/share/munin/plugins/mysql_threads mysql_threads
+
+
+sed -ie "s/#dbdir /dbdir /" /etc/munin/munin.conf
+sed -ie "s/#htmldir /htmldir /" /etc/munin/munin.conf
+sed -ie "s/#logdir /logdir /" /etc/munin/munin.conf
+sed -ie "s/#rundir /rundir /" /etc/munin/munin.conf
+sed -ie "s/#tmpldir /tmpldir /" /etc/munin/munin.conf
+sed -ie "s/[localhost.local /[master.local /" /etc/munin/munin.conf
+
+cd /etc/apache2/conf-enabled/
+ln -s /etc/munin/apache24.conf munin.conf
+# edit munin's apache24 configuration to aloow for above changes
+# replace 'Require local' with:
+#	# Require local
+#	Require all granted
+#	Options FollowSymLinks SymLinksIfOwnerMatch
+service apache2 restart
+
 # manually or automagically add nodes
