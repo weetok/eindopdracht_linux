@@ -4,6 +4,7 @@ echo "127.0.1.1 david-minion" >> /etc/hosts
 echo "10.4.1.35 salt" >> /etc/hosts
 
 ## Install the salt-minion
+apt update && apt upgrade
 apt install -y salt-minion
 sed -ie 's/#hash_type:/hash_type:/' /etc/salt/minion
 service salt-minion restart
